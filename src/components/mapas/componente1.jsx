@@ -327,11 +327,28 @@ const MapaConCapas = () => {
                   sx={{ width: 300 }}
                 />
               )}
+                  <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
+                setOrigen(null);
+                setDestino(null);
+                setLineasOk([]);
+                setLineaSeleccionada("");
+              }}>
+                Nueva búsqueda
+              </Button>
             </>
-          ) : (
+          ) : (<>
             <Typography variant="body2" color="error">
               No se encontraron líneas cercanas.
             </Typography>
+                <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
+                setOrigen(null);
+                setDestino(null);
+                setLineasOk([]);
+                setLineaSeleccionada("");
+              }}>
+                Nueva búsqueda
+              </Button>
+            </>
           )}
         </Box>
       )}
