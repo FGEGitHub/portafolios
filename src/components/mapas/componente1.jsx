@@ -7,8 +7,7 @@ import {
   TileLayer,
   GeoJSON,
   Marker,
-  Tooltip,
-  Polyline,
+ Popup,
   useMapEvents,
 } from "react-leaflet";
 import {
@@ -18,7 +17,9 @@ import {
   Autocomplete,
   TextField,
 } from "@mui/material";
-
+import ReactDOMServer from 'react-dom/server';
+import SchoolIcon from '@mui/icons-material/School';
+import { blue } from '@mui/material/colors';
 /**********************************
  * CONFIGURACIÓN GENERAL
  *********************************/
@@ -56,6 +57,15 @@ const modalStyle = {
   p: 4,
   borderRadius: 2,
 };
+const iconoEscuela = new L.DivIcon({
+  html: ReactDOMServer.renderToString(
+    <SchoolIcon style={{ color: blue[700], fontSize: 36 }} />
+  ),
+  className: "",
+  iconSize: [36, 36],
+  iconAnchor: [18, 36],
+  popupAnchor: [0, -36],
+});
 
 const formatearLinea = (props) => {
   const num = props.linea || props.Linea || props.Name || "?";
@@ -241,7 +251,7 @@ const MapaConCapas = () => {
               setMostrarCapa1(!mostrarCapa1);
             }}
           />
-          Escuelas
+         Mostrar todas las Escuelas
         </label>
         <label style={{ marginLeft: "10px" }}>
           <input
@@ -255,7 +265,7 @@ const MapaConCapas = () => {
               setMostrarCapa2(!mostrarCapa2);
             }}
           />
-          Recorridos
+        Todos los Recorridos
         </label>
         <label style={{ marginLeft: "10px" }}>
           <input
@@ -266,7 +276,7 @@ const MapaConCapas = () => {
               setMostrarCapa3(!mostrarCapa3);
             }}
           />
-          Barrios
+         Todos los Barrios
         </label>
       </div>
 
@@ -363,7 +373,20 @@ const MapaConCapas = () => {
         style={{ height: "70vh", width: "90vw" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
+{escuelaSeleccionada && (
+          (() => {
+            const [lng, lat] = escuelaSeleccionada.geometry.coordinates;
+            return (
+              <Marker position={[lat, lng]} icon={iconoEscuela}>
+                <Popup>
+                  {escuelaSeleccionada.properties.nombreEsta}
+                  <br />
+                  {escuelaSeleccionada.properties.domicilio}
+                </Popup>
+              </Marker>
+            );
+          })()
+        )}
         {/* Capa 1: Escuelas */}
         {mostrarCapa1 && escuelas && (
           <GeoJSON
