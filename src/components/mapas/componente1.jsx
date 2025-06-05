@@ -171,7 +171,7 @@ const MapaConCapas = () => {
     );
     setLineasOk(detalles);
 
-    if (detalles.length === 1) {
+    if (detalles.length == 1) {
       setLineaSeleccionada(detalles[0]);
       setMostrarCapa2(true);
     } else {
@@ -305,7 +305,7 @@ const MapaConCapas = () => {
           isOptionEqualToValue={(option, value) => option.label === value.label}
         />
       </Box>
-
+      <h3>Selecciona 2 puntos en el mapa para encontrar las lineas de colectivos sugeridas</h3>
       {/* líneas posibles */}
       {origen && destino && (
         <Box sx={{ mb: 2, p: 2, backgroundColor: "#e0f7fa", borderRadius: 2 }}>
@@ -321,13 +321,16 @@ const MapaConCapas = () => {
                 <Autocomplete
                   options={lineasOk}
                   value={lineaSeleccionada}
-                  onChange={(e, val) => setLineaSeleccionada(val || "")}
+                  onChange={(e, val) => {
+                    setLineaSeleccionada(val || "");
+                    setMostrarCapa2(true); // 👉 Mostrar la capa al seleccionar
+                  }}
                   renderInput={(params) => <TextField {...params} label="Seleccionar línea" />}
                   clearOnEscape
                   sx={{ width: 300 }}
                 />
               )}
-                  <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
+              <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
                 setOrigen(null);
                 setDestino(null);
                 setLineasOk([]);
@@ -340,15 +343,15 @@ const MapaConCapas = () => {
             <Typography variant="body2" color="error">
               No se encontraron líneas cercanas.
             </Typography>
-                <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
-                setOrigen(null);
-                setDestino(null);
-                setLineasOk([]);
-                setLineaSeleccionada("");
-              }}>
-                Nueva búsqueda
-              </Button>
-            </>
+            <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
+              setOrigen(null);
+              setDestino(null);
+              setLineasOk([]);
+              setLineaSeleccionada("");
+            }}>
+              Nueva búsqueda
+            </Button>
+          </>
           )}
         </Box>
       )}
