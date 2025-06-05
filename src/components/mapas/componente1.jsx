@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import ReactDOMServer from 'react-dom/server';
 import SchoolIcon from '@mui/icons-material/School';
+import Imagen from '../../assets/caricat.jpeg';
 import { blue } from '@mui/material/colors';
 /**********************************
  * CONFIGURACIÓN GENERAL
@@ -281,7 +282,14 @@ const MapaConCapas = () => {
       </div>
 
       {/* autocompletes */}
-      <Box >
+<Box display="flex" alignItems="flex-start" gap={2}>
+  {/* Autocompletes en 2 columnas */}
+  <Box
+    display="grid"
+    gridTemplateColumns="1fr 1fr"
+    gap={2}
+    sx={{ maxWidth: 520 }}
+  >
         <Autocomplete
           options={escuelas?.features || []}
           getOptionLabel={(option) => option?.properties?.nombreEsta || ""}
@@ -314,6 +322,11 @@ const MapaConCapas = () => {
           clearOnEscape
           isOptionEqualToValue={(option, value) => option.label === value.label}
         />
+          <img
+    src={Imagen}
+    alt="Decorativa"
+    style={{ width: 60, height: 60, objectFit: "cover", borderRadius: 8 }}
+  /></Box>
       </Box>
       <h3>Selecciona 2 puntos en el mapa para encontrar las lineas de colectivos sugeridas</h3>
       {/* líneas posibles */}
