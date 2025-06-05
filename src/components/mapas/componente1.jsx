@@ -357,7 +357,7 @@ const MapaConCapas = () => {
       <MapContainer
         center={[-27.466, -58.832]}
         zoom={13}
-        style={{ height: "70vh", width: "100%" }}
+        style={{ height: "80vh", width: "90vw" }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
