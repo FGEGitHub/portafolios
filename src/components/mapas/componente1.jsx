@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import * as turf from "@turf/turf";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { Modal, Box, Typography, Button } from "@mui/material";
 import {
   MapContainer,
   TileLayer,
@@ -12,11 +11,18 @@ import {
   Polyline,
   useMapEvents,
 } from "react-leaflet";
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 
 /**********************************
  * CONFIGURACIÓN GENERAL
  *********************************/
-// Radio máximo considerado “cerca” en metros
 const PROXIMITY_METERS = 400;
 const PROXIMITY_KM = PROXIMITY_METERS / 1000;
 
@@ -52,18 +58,19 @@ const modalStyle = {
   borderRadius: 2,
 };
 
-/**********************************
- * UTILS
- *********************************/
-// Formatea una línea con más detalle (línea, ramal y descrip si existen)
 const formatearLinea = (props) => {
   const num = props.linea || props.Linea || props.Name || "?";
   const ramal = props.ramal ? ` - ${props.ramal}` : "";
   const descrip = props.descrip ? ` (${props.descrip})` : "";
   return `${num}${ramal}${descrip}`.replace(/\s+/g, " ").trim();
 };
+function formatearLineabarrio(props) {
+  return {
+    ...props,
+    label: props.description, // asegúrate que esto existe
+  };
+}
 
-// Calcula la distancia de un punto a una geometría LineString / MultiLineString
 const distanciaPuntoLineaKm = (punto, geom) => {
   if (!geom) return Infinity;
   if (geom.type === "LineString") {
@@ -83,9 +90,6 @@ const distanciaPuntoLineaKm = (punto, geom) => {
   return Infinity;
 };
 
-/**********************************
- * COMPONENTE CLICK HANDLER
- *********************************/
 const MapClickHandler = ({ origen, destino, setOrigen, setDestino }) => {
   useMapEvents({
     click(e) {
@@ -97,35 +101,30 @@ const MapClickHandler = ({ origen, destino, setOrigen, setDestino }) => {
   return null;
 };
 
-/**********************************
- * COMPONENTE PRINCIPAL
- *********************************/
 const MapaConCapas = () => {
-  // visibilidad de capas
-  const [mostrarCapa1, setMostrarCapa1] = useState(false); // Escuelas
-  const [mostrarCapa2, setMostrarCapa2] = useState(false); // Recorridos
-  const [mostrarCapa3, setMostrarCapa3] = useState(false); // Barrios
+  const [mostrarCapa1, setMostrarCapa1] = useState(false);
+  const [mostrarCapa2, setMostrarCapa2] = useState(false); // 🔁 inicial false
+  const [mostrarCapa3, setMostrarCapa3] = useState(false);
 
-  // geojson
   const [escuelas, setEscuelas] = useState(null);
   const [recorridos, setRecorridos] = useState(null);
   const [barrios, setBarrios] = useState(null);
 
-  // interacción
-  const [featureSeleccionado, setFeatureSeleccionado] = useState(null);
   const [origen, setOrigen] = useState(null);
   const [destino, setDestino] = useState(null);
-  const [lineasOk, setLineasOk] = useState([]); // array de strings descriptivos
-const [lineaSeleccionada, setLineaSeleccionada] = useState(null);
+  const [lineasOk, setLineasOk] = useState([]);
+  const [lineaSeleccionada, setLineaSeleccionada] = useState("");
 
-  /******** CARGA DE GEOJSON ********/
+  const [escuelaSeleccionada, setEscuelaSeleccionada] = useState(null);
+  const [recorridoSeleccionado, setRecorridoSeleccionado] = useState(null);
+  const [barrioSeleccionado, setBarrioSeleccionado] = useState(null);
+
   useEffect(() => {
     fetch("/escuelasgeo.geojson").then((r) => r.json()).then(setEscuelas).catch(console.error);
     fetch("/recorridogeoson.geojson").then((r) => r.json()).then(setRecorridos).catch(console.error);
     fetch("/barriosgeo.geojson").then((r) => r.json()).then(setBarrios).catch(console.error);
   }, []);
 
-  /******** BÚSQUEDA DE LÍNEAS CERCANAS ********/
   useEffect(() => {
     if (!origen || !destino || !recorridos) return;
 
@@ -142,111 +141,161 @@ const [lineaSeleccionada, setLineaSeleccionada] = useState(null);
       new Set(candidatas.map((f) => formatearLinea(f.properties)))
     );
     setLineasOk(detalles);
-  }, [origen, destino, recorridos]);
-useEffect(() => {
-  if (lineasOk.length > 0) {
-    setMostrarCapa2(true); // Mostrar recorridos válidos
-  }
-}, [lineasOk])
-useEffect(() => {
-  if (lineasOk.length === 1) {
-    setLineaSeleccionada(lineasOk[0]);
-  }
-}, [lineasOk]);
 
-  /******** STYLES DINÁMICOS ********/
+    if (detalles.length === 1) {
+      setLineaSeleccionada(detalles[0]);
+      setMostrarCapa2(true);
+    }
+  }, [origen, destino, recorridos]);
+
   const estiloRecorrido = (feature) => {
     const desc = formatearLinea(feature.properties);
-    if (lineasOk.includes(desc)) return { color: "blue", weight: 5 };
+    if (desc === lineaSeleccionada) return { color: "blue", weight: 5 };
+    if (lineasOk.includes(desc)) return { color: "gray", weight: 1, opacity: 0.3 };
     return { color: "green", weight: 2 };
   };
+const filtrarFeature = (feature, seleccionado, tipo) => {
+  if (!seleccionado) return true;
 
-  const onEachFeature = (feature, layer) => {
-    const nombre = formatearLinea(feature.properties);
-    const descripcion = feature.properties.description || "Sin descripción";
-    layer.bindTooltip(nombre, { permanent: false, direction: "top" });
-    layer.on({ click: () => setFeatureSeleccionado({ nombre, descripcion }) });
-  };
+  switch (tipo) {
+    case "escuela":
+      return feature.properties?.nombreEsta === seleccionado.properties?.nombreEsta;
 
-  /******** RENDER ********/
+    case "barrio":
+      const nombreFeature = formatearLineabarrio(feature.properties).label;
+      const barrioLabelSeleccionado = seleccionado.label;
+      return nombreFeature === barrioLabelSeleccionado;
+
+    case "recorrido":
+    default:
+      const nombreRecorrido = formatearLinea(feature.properties);
+      return nombreRecorrido === seleccionado;
+  }
+};
+
+
+
+
   return (
     <div>
-      {/* controles de capas */}
+      {/* controles */}
       <div style={{ marginBottom: "10px" }}>
         <label>
-          <input type="checkbox" checked={mostrarCapa1} onChange={() => setMostrarCapa1(!mostrarCapa1)} /> Escuelas
+          <input type="checkbox" checked={mostrarCapa1} onChange={() => setMostrarCapa1(!mostrarCapa1)} />
+          Escuelas
         </label>
         <label style={{ marginLeft: "10px" }}>
-          <input type="checkbox" checked={mostrarCapa2} onChange={() => setMostrarCapa2(!mostrarCapa2)} /> Recorridos
+          <input type="checkbox" checked={mostrarCapa2} onChange={() => setMostrarCapa2(!mostrarCapa2)} />
+          Recorridos
         </label>
         <label style={{ marginLeft: "10px" }}>
-          <input type="checkbox" checked={mostrarCapa3} onChange={() => setMostrarCapa3(!mostrarCapa3)} /> Barrios
+          <input type="checkbox" checked={mostrarCapa3} onChange={() => setMostrarCapa3(!mostrarCapa3)} />
+          Barrios
         </label>
       </div>
 
-      {/* recomendación */}
+      {/* autocompletes */}
+      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+ <Autocomplete
+  options={escuelas?.features || []}
+  getOptionLabel={(option) => option?.properties?.nombreEsta || ''}
+  value={escuelaSeleccionada}
+  onChange={(e, val) => setEscuelaSeleccionada(val)}
+  renderInput={(params) => <TextField {...params} label="Escuela" />}
+  sx={{ width: 250 }}
+/>
+
+        <Autocomplete
+          options={recorridos?.features.map((f) => formatearLinea(f.properties)) || []}
+          value={recorridoSeleccionado}
+          onChange={(e, val) => {
+            setRecorridoSeleccionado(val);
+            setLineaSeleccionada(val);
+            setMostrarCapa2(true);
+          }}
+          renderInput={(params) => <TextField {...params} label="Recorrido" />}
+          sx={{ width: 250 }}
+        />
+     <Autocomplete
+  options={barrios?.features.map((f) => formatearLineabarrio(f.properties)) || []}
+  getOptionLabel={(option) => option.label || ''}
+  value={barrioSeleccionado}
+  onChange={(e, val) => setBarrioSeleccionado(val)}
+  renderInput={(params) => <TextField {...params} label="Barrio" />}
+  sx={{ width: 250 }}
+/>
+
+      </Box>
+
+      {/* líneas posibles */}
       {origen && destino && (
         <Box sx={{ mb: 2, p: 2, backgroundColor: "#e0f7fa", borderRadius: 2 }}>
           <Typography variant="subtitle1">Recorridos cercanos (≤ {PROXIMITY_METERS} m):</Typography>
           {lineasOk.length ? (
-            <ul style={{ margin: 0, paddingLeft: "20px" }}>
-              {lineasOk.map((l) => (
-                <li key={l}>{l}</li>
-              ))}
-            </ul>
+            <>
+              <Autocomplete
+                options={lineasOk}
+                value={lineaSeleccionada}
+                onChange={(e, val) => {
+                  setLineaSeleccionada(val);
+                  setMostrarCapa2(true);
+                }}
+                renderInput={(params) => <TextField {...params} label="Seleccionar línea" />}
+                sx={{ mt: 1, width: 300 }}
+              />
+              <Button sx={{ mt: 2 }} variant="outlined" onClick={() => {
+                setOrigen(null);
+                setDestino(null);
+                setLineasOk([]);
+                setLineaSeleccionada("");
+              }}>
+                Nueva búsqueda
+              </Button>
+            </>
           ) : (
             <Typography>No se encontraron líneas que conecten ambos puntos.</Typography>
           )}
-          <Button sx={{ mt: 1 }} variant="outlined" onClick={() => { setOrigen(null); setDestino(null); setLineasOk([]); }}>
-            Nueva búsqueda
-          </Button>
         </Box>
       )}
-{lineasOk.length > 1 && (
-  <div>
-    <label>Seleccionar recorrido:</label>
-    <select
-      value={lineaSeleccionada || ''}
-      onChange={(e) => setLineaSeleccionada(e.target.value)}
-    >
-      <option value="" disabled>Elegí una línea</option>
-      {lineasOk.map((linea, index) => (
-        <option key={index} value={linea}>
-          {linea}
-        </option>
-      ))}
-    </select>
-  </div>
-)}
 
       {/* mapa */}
       <MapContainer center={[-27.467, -58.835]} zoom={14} style={{ height: "600px", width: "90vw" }}>
         <MapClickHandler origen={origen} destino={destino} setOrigen={setOrigen} setDestino={setDestino} />
-
         <TileLayer attribution="© OpenStreetMap" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         {origen && <Marker position={[origen[1], origen[0]]} icon={iconoOrigen}><Tooltip permanent>Origen</Tooltip></Marker>}
         {destino && <Marker position={[destino[1], destino[0]]} icon={iconoDestino}><Tooltip permanent>Destino</Tooltip></Marker>}
-
         {origen && destino && <Polyline positions={[[origen[1], origen[0]], [destino[1], destino[0]]]} color="red" />}
 
-        {mostrarCapa1 && escuelas && <GeoJSON data={escuelas} style={estiloBase} onEachFeature={onEachFeature} />}
-      {mostrarCapa2 && recorridos && lineaSeleccionada && (
-  <GeoJSON
-    data={{
-      ...recorridos,
-      features: recorridos.features.filter(
-        (f) => formatearLinea(f.properties) === lineaSeleccionada
-      ),
-    }}
-    style={estiloRecorrido}
-    onEachFeature={onEachFeature}
-  />
-)}
+        {mostrarCapa1 && escuelas && (
+          <GeoJSON
+            data={{
+              ...escuelas,
+              features: escuelas.features.filter(f => filtrarFeature(f, escuelaSeleccionada, "escuela"))
+            }}
+            style={estiloBase}
+          />
+        )}
 
+        {mostrarCapa2 && recorridos && (
+          <GeoJSON
+            data={{
+              ...recorridos,
+              features: recorridos.features.filter(f => filtrarFeature(f, recorridoSeleccionado || lineaSeleccionada, "recorrido"))
+            }}
+            style={estiloRecorrido}
+          />
+        )}
 
-
-        {mostrarCapa3 && barrios && <GeoJSON data={barrios} style={estiloBase} onEachFeature={onEachFeature} />}
+        {mostrarCapa3 && barrios && (
+          <GeoJSON
+            data={{
+              ...barrios,
+              features: barrios.features.filter(f => filtrarFeature(f, barrioSeleccionado, "barrio"))
+            }}
+            style={estiloBase}
+          />
+        )}
       </MapContainer>
     </div>
   );
