@@ -103,7 +103,7 @@ const MapClickHandler = ({ origen, destino, setOrigen, setDestino }) => {
 const MapaConCapas = () => {
   // visibilidad de capas
   const [mostrarCapa1, setMostrarCapa1] = useState(true); // Escuelas
-  const [mostrarCapa2, setMostrarCapa2] = useState(true); // Recorridos
+  const [mostrarCapa2, setMostrarCapa2] = useState(false); // Recorridos
   const [mostrarCapa3, setMostrarCapa3] = useState(false); // Barrios
 
   // geojson
@@ -142,7 +142,11 @@ const MapaConCapas = () => {
     );
     setLineasOk(detalles);
   }, [origen, destino, recorridos]);
-
+useEffect(() => {
+  if (lineasOk.length > 0) {
+    setMostrarCapa2(true); // Mostrar recorridos válidos
+  }
+}, [lineasOk])
   /******** STYLES DINÁMICOS ********/
   const estiloRecorrido = (feature) => {
     const desc = formatearLinea(feature.properties);
@@ -193,7 +197,7 @@ const MapaConCapas = () => {
       )}
 
       {/* mapa */}
-      <MapContainer center={[-27.467, -58.835]} zoom={14} style={{ height: "600px", width: "100vh" }}>
+      <MapContainer center={[-27.467, -58.835]} zoom={14} style={{ height: "600px", width: "90vw" }}>
         <MapClickHandler origen={origen} destino={destino} setOrigen={setOrigen} setDestino={setDestino} />
 
         <TileLayer attribution="© OpenStreetMap" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -201,10 +205,23 @@ const MapaConCapas = () => {
         {origen && <Marker position={[origen[1], origen[0]]} icon={iconoOrigen}><Tooltip permanent>Origen</Tooltip></Marker>}
         {destino && <Marker position={[destino[1], destino[0]]} icon={iconoDestino}><Tooltip permanent>Destino</Tooltip></Marker>}
 
-        {origen && destino && <Polyline positions={[[origen[1], origen[0]], [destino[1], destino[0]]]} color="red" />} 
+        {origen && destino && <Polyline positions={[[origen[1], origen[0]], [destino[1], destino[0]]]} color="red" />}
 
         {mostrarCapa1 && escuelas && <GeoJSON data={escuelas} style={estiloBase} onEachFeature={onEachFeature} />}
-        {mostrarCapa2 && recorridos && <GeoJSON data={recorridos} style={estiloRecorrido} onEachFeature={onEachFeature} />}
+        {mostrarCapa2 && recorridos && (
+  <GeoJSON
+    data={{
+      ...recorridos,
+      features: recorridos.features.filter((f) =>
+        lineasOk.includes(formatearLinea(f.properties))
+      ),
+    }}
+    style={estiloRecorrido}
+    onEachFeature={onEachFeature}
+  />
+)}
+
+
         {mostrarCapa3 && barrios && <GeoJSON data={barrios} style={estiloBase} onEachFeature={onEachFeature} />}
       </MapContainer>
     </div>
