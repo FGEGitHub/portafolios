@@ -102,7 +102,7 @@ const MapClickHandler = ({ origen, destino, setOrigen, setDestino }) => {
  *********************************/
 const MapaConCapas = () => {
   // visibilidad de capas
-  const [mostrarCapa1, setMostrarCapa1] = useState(true); // Escuelas
+  const [mostrarCapa1, setMostrarCapa1] = useState(false); // Escuelas
   const [mostrarCapa2, setMostrarCapa2] = useState(false); // Recorridos
   const [mostrarCapa3, setMostrarCapa3] = useState(false); // Barrios
 
@@ -116,6 +116,7 @@ const MapaConCapas = () => {
   const [origen, setOrigen] = useState(null);
   const [destino, setDestino] = useState(null);
   const [lineasOk, setLineasOk] = useState([]); // array de strings descriptivos
+const [lineaSeleccionada, setLineaSeleccionada] = useState(null);
 
   /******** CARGA DE GEOJSON ********/
   useEffect(() => {
@@ -147,6 +148,12 @@ useEffect(() => {
     setMostrarCapa2(true); // Mostrar recorridos válidos
   }
 }, [lineasOk])
+useEffect(() => {
+  if (lineasOk.length === 1) {
+    setLineaSeleccionada(lineasOk[0]);
+  }
+}, [lineasOk]);
+
   /******** STYLES DINÁMICOS ********/
   const estiloRecorrido = (feature) => {
     const desc = formatearLinea(feature.properties);
@@ -195,6 +202,22 @@ useEffect(() => {
           </Button>
         </Box>
       )}
+{lineasOk.length > 1 && (
+  <div>
+    <label>Seleccionar recorrido:</label>
+    <select
+      value={lineaSeleccionada || ''}
+      onChange={(e) => setLineaSeleccionada(e.target.value)}
+    >
+      <option value="" disabled>Elegí una línea</option>
+      {lineasOk.map((linea, index) => (
+        <option key={index} value={linea}>
+          {linea}
+        </option>
+      ))}
+    </select>
+  </div>
+)}
 
       {/* mapa */}
       <MapContainer center={[-27.467, -58.835]} zoom={14} style={{ height: "600px", width: "90vw" }}>
@@ -208,18 +231,19 @@ useEffect(() => {
         {origen && destino && <Polyline positions={[[origen[1], origen[0]], [destino[1], destino[0]]]} color="red" />}
 
         {mostrarCapa1 && escuelas && <GeoJSON data={escuelas} style={estiloBase} onEachFeature={onEachFeature} />}
-        {mostrarCapa2 && recorridos && (
+      {mostrarCapa2 && recorridos && lineaSeleccionada && (
   <GeoJSON
     data={{
       ...recorridos,
-      features: recorridos.features.filter((f) =>
-        lineasOk.includes(formatearLinea(f.properties))
+      features: recorridos.features.filter(
+        (f) => formatearLinea(f.properties) === lineaSeleccionada
       ),
     }}
     style={estiloRecorrido}
     onEachFeature={onEachFeature}
   />
 )}
+
 
 
         {mostrarCapa3 && barrios && <GeoJSON data={barrios} style={estiloBase} onEachFeature={onEachFeature} />}
