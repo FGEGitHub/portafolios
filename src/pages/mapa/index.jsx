@@ -18,7 +18,7 @@ export default function Paginas() {
     const navigate = useNavigate();
 const theme = useTheme();
 useEffect(() => {
-    document.title = "Cuqui Calvano";
+    document.title = "Pipao";
     const updateMeta = (property, content) => {
         let element = document.querySelector(`meta[property='${property}']`);
         if (!element) {
@@ -39,13 +39,8 @@ useEffect(() => {
       updateMeta('og:type', 'website');
   }, []);
 
-    const volver = (e) => {
-        navigate('/fiscalizacion/administracion/menu')
-        
-        
-        
-            }
-            const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+
+            
             return (
                 <>
                    <Formulario/>

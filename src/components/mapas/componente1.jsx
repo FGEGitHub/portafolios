@@ -193,7 +193,7 @@ const MapaConCapas = () => {
       )}
 
       {/* mapa */}
-      <MapContainer center={[-27.467, -58.835]} zoom={14} style={{ height: "600px", width: "100%" }}>
+      <MapContainer center={[-27.467, -58.835]} zoom={14} style={{ height: "600px", width: "100vh" }}>
         <MapClickHandler origen={origen} destino={destino} setOrigen={setOrigen} setDestino={setDestino} />
 
         <TileLayer attribution="© OpenStreetMap" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
