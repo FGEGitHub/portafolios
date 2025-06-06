@@ -6,7 +6,7 @@ const Rutas = [
  
     { path: '/', element: <Mapas /> },
 { path: '/mapas', element: <Mapas /> },
-
+{ path: '/principal', element: <Principal /> },
 
     ];
 
