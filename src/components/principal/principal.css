@@ -67,9 +67,10 @@
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
-    height: auto;
+
     padding: 60px 20px;
     text-align: center;
+    margin: 0; /* Asegura que no haya margen arriba */
   }
 
   .hero-text h1 {
@@ -79,6 +80,6 @@
   .hero-image img {
     width: 200px;
     height: 200px;
-    margin-top: 20px;
+    margin-top: -200px;
   }
 }
