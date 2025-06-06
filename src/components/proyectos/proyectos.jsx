@@ -1,30 +1,36 @@
 import React from "react";
 import "./proyectos.css";
 import Fotodone from "../../assets/done.png"
+import Fotofe from "../../assets/cuotas.png"
+import Fotorecc from "../../assets/recorrido.png"
 
 const proyectos = [
   {
     titulo: "Mapa Interactivo Desarrollo urbano",
     descripcion: "Mapa con zoom, chatbot y búsqueda de lotes con React ",
-    tecnologias: ["React",  "Node", "MySQL"],
+    tecnologias: ["React", "Node", "MySQL"],
     imagen: Fotodone,
-    enlace: "https://don-eulogio.vercel.app",
+    //enlace: "",
+    privado: true,
   },
   {
-    titulo: "Sistema de Crobros",
+    titulo: "Sistema de Cobros",
     descripcion: "Sistema de cobros y préstamos usado en la Caja Municipal.",
     tecnologias: ["React", "Node", "MariaDB"],
-    imagen: "/images/proyecto2.jpg",
-    enlace: "https://github.com/usuario/proyecto-prestamos",
+    imagen: Fotofe,
+    enlace: "",
+    privado: true,
   },
   {
     titulo: "Mapa Colectivos Corrientes",
     descripcion: "Ubicación de colectivos y paradas, recorrido, proximidad a escuelas.",
     tecnologias: ["React", "Leaflet", "Vite"],
-    imagen: "/images/proyecto3.jpg",
-    enlace: "https://github.com/usuario/colectivos-corrientes",
+    imagen: Fotorecc,
+    enlace: "https://portafolios-three-opal.vercel.app/mapas",
+    privado: false,
   },
 ];
+
 
 const Proyectos = () => {
   return (
@@ -41,9 +47,15 @@ const Proyectos = () => {
                 <span key={i}>{tec}</span>
               ))}
             </div>
-            <a href={p.enlace} className="btn" target="_blank" rel="noreferrer">
-              Ver Proyecto →
-            </a>
+      {p.privado ? (
+  <button className="btn disabled" disabled>
+    Proyecto Privado 🔒
+  </button>
+) : (
+  <a href={p.enlace} className="btn" target="_blank" rel="noreferrer">
+    Ver Proyecto →
+  </a>
+)}
           </div>
         ))}
       </div>
