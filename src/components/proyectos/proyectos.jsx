@@ -1,16 +1,17 @@
 import React from "react";
 import "./proyectos.css";
+import Fotodone from "../../assets/done.png"
 
 const proyectos = [
   {
-    titulo: "Mapa Interactivo Don Eulogio",
-    descripcion: "Mapa con zoom, chatbot y búsqueda de lotes con React y Leaflet.",
-    tecnologias: ["React", "Leaflet", "Node", "MySQL"],
-    imagen: "/images/proyecto1.jpg",
+    titulo: "Mapa Interactivo Desarrollo urbano",
+    descripcion: "Mapa con zoom, chatbot y búsqueda de lotes con React ",
+    tecnologias: ["React",  "Node", "MySQL"],
+    imagen: Fotodone,
     enlace: "https://don-eulogio.vercel.app",
   },
   {
-    titulo: "Sistema de Préstamos",
+    titulo: "Sistema de Crobros",
     descripcion: "Sistema de cobros y préstamos usado en la Caja Municipal.",
     tecnologias: ["React", "Node", "MariaDB"],
     imagen: "/images/proyecto2.jpg",
