@@ -6,7 +6,7 @@
   background-color: #111827;
   color: white;
   padding: 40px;
-  height: 100vh; /* Ocupa toda la pantalla */
+   /* height: 100vh;Ocupa toda la pantalla */
     width: 95vw; /* Ocupa toda la pantalla */
   gap: 40px;
   flex-wrap: wrap;

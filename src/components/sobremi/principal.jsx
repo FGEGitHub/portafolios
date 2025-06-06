@@ -8,10 +8,10 @@ import nodeIcon from "../../assets/nodejs.jpg";
 import reactIcon from "../../assets/react.png";
 import viteIcon from "../../assets/vite.jpg";
 import mysqlIcon from "../../assets/mysql.png";
-import apiIcon from "../../assets/mantenimiento.jpeg";
-import mapIcon from "../../assets/mantenimiento.jpeg";
-import chatbotIcon from "../../assets/mantenimiento.jpeg";
-import deepIcon from "../../assets/mantenimiento.jpeg";
+
+import mapIcon from "../../assets/0_Pk7FY6epy4BnOGei.svg";
+import chatbotIcon from "../../assets/chat.jpg";
+import deepIcon from "../../assets/deepsek.png";
 
 // Imágenes grandes que se muestran al seleccionar
 import jsCode from "../../assets/mantenimiento.jpeg";
@@ -19,7 +19,7 @@ import nodeCode from "../../assets/mantenimiento.jpeg";
 import reactCode from "../../assets/mantenimiento.jpeg";
 import viteCode from "../../assets/mantenimiento.jpeg";
 import mysqlCode from "../../assets/mantenimiento.jpeg";
-import apiCode from "../../assets/mantenimiento.jpeg";
+
 import mapCode from "../../assets/mantenimiento.jpeg";
 import chatbotCode from "../../assets/mantenimiento.jpeg";
 import deepCode from "../../assets/mantenimiento.jpeg";
@@ -31,7 +31,7 @@ const techData = {
   "React": { icon: reactIcon, code: reactCode },
   "Vite": { icon: viteIcon, code: viteCode },
   "MySQL / MariaDB": { icon: mysqlIcon, code: mysqlCode },
-  "APIs": { icon: apiIcon, code: apiCode },
+
   "Leaflet / Mapas": { icon: mapIcon, code: mapCode },
   "Chatbots": { icon: chatbotIcon, code: chatbotCode },
   "DeepSel Chain": { icon: deepIcon, code: deepCode },
