@@ -8,7 +8,7 @@ import Contacto from '../pages/contacto/index';
 
 const Rutas = [
  
-    { path: '/', element: <Mapas /> },
+    { path: '/inicio', element: <Mapas /> },
 { path: '/mapas', element: <Mapas /> },
 { path: '/principal', element: <Principal /> },
 { path: '/inicio', element: <Inicio /> },
