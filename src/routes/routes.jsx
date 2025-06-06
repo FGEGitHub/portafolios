@@ -3,9 +3,9 @@ import Principal from '../pages/principal/index';
 
 
 const Rutas = [
-
-    { path: '/', element: <Principal /> },
  { path: '/mapas', element: <Mapas /> },
+    { path: '/', element: <Principal /> },
+
 
 
     ];
