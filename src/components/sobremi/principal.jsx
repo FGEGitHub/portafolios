@@ -7,7 +7,7 @@ import jsIcon from "../../assets/javascript.png";
 import nodeIcon from "../../assets/nodejs.jpg";
 import reactIcon from "../../assets/react.png";
 import viteIcon from "../../assets/vite.jpg";
-import mysqlIcon from "../../assets/mantenimiento.jpeg";
+import mysqlIcon from "../../assets/mysql.png";
 import apiIcon from "../../assets/mantenimiento.jpeg";
 import mapIcon from "../../assets/mantenimiento.jpeg";
 import chatbotIcon from "../../assets/mantenimiento.jpeg";
