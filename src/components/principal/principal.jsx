@@ -1,6 +1,6 @@
 import React from "react";
 import "./principal.css";
-import profile from "../../Assets/it.jpeg"; // cambia esto a tu ruta real
+import profile from "../../assets/it.jpeg"; // cambia esto a tu ruta real
 
 const HeroSection = () => {
   return (
