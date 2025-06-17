@@ -5,6 +5,14 @@ import Fotofe from "../../assets/cuotas.png"
 import Fotorecc from "../../assets/recorrido.png"
 
 const proyectos = [
+    {
+    titulo: "Mapa Colectivos Corrientes",
+    descripcion: "Ubicación de colectivos y paradas, recorrido, proximidad a escuelas.",
+    tecnologias: ["React", "Leaflet", "Vite"],
+    imagen: Fotorecc,
+    enlace: "https://portafolios-three-opal.vercel.app/mapas",
+    privado: false,
+  },
   {
     titulo: "Mapa Interactivo Desarrollo urbano",
     descripcion: "Mapa con zoom, chatbot y búsqueda de lotes con React ",
@@ -21,14 +29,7 @@ const proyectos = [
     enlace: "",
     privado: true,
   },
-  {
-    titulo: "Mapa Colectivos Corrientes",
-    descripcion: "Ubicación de colectivos y paradas, recorrido, proximidad a escuelas.",
-    tecnologias: ["React", "Leaflet", "Vite"],
-    imagen: Fotorecc,
-    enlace: "https://portafolios-three-opal.vercel.app/mapas",
-    privado: false,
-  },
+
 ];
 
 

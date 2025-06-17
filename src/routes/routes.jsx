@@ -5,6 +5,7 @@ import Sobremi from '../pages/sobre mi/index';
 import Proyectos from '../pages/proyectos destacados/index';
 import Tecnologias from '../pages/tecnologias/index';
 import Contacto from '../pages/contacto/index';
+import Mapafide from '../pages/mapafide/index';
 
 const Rutas = [
  
@@ -16,6 +17,7 @@ const Rutas = [
 { path: '/proyectos', element: <Proyectos /> },
 { path: '/tecnologias', element: <Tecnologias /> },
 { path: '/contacto', element: <Contacto /> },
+{ path: '/mapafide', element: <Mapafide /> },
     ];
 
 
