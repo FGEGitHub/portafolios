@@ -2,6 +2,9 @@ import React, { useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+
+
+
 import Pagina1 from "../../assets/folio1.png";
 import Pagina2 from "../../assets/folio2.png";
 import Pagina3 from "../../assets/folio2.png";
