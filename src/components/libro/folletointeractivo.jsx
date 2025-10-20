@@ -2,12 +2,11 @@ import React, { useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-
-import Pagina2 from "../../Assets/deepsek.png";
-import Pagina1 from "../../Assets/deepsek.png";
-import Pagina3 from "../../Assets/deepsek.png";
-import Pagina4 from "../../Assets/deepsek.png";
-import Portada from "../../Assets/portada.jpeg";
+import Pagina1 from "../../assets/folio1.png";
+import Pagina2 from "../../assets/folio2.png";
+import Pagina3 from "../../assets/folio2.png";
+import Pagina4 from "../../assets/folio2.png";
+import Portada from "../../assets/portada.jpeg";
 
 import "./FolletoInteractivo.css"; // 👈 Importamos el CSS
 
