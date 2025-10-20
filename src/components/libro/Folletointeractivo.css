@@ -1,0 +1,83 @@
+.folleto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0a1a4a, #1c3f7a);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.folleto-book {
+  background: white;
+  border: 8px solid #1d4ed8;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  background: white;
+  padding: 16px;
+}
+
+.page.portada {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.page-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.page-text {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.portada .page-text {
+  color: white;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.nav-button {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e3a8a;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.nav-button:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.hint-text {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.8;
+  color: #e0e7ff;
+  font-style: italic;
+}

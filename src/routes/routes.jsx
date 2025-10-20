@@ -6,6 +6,10 @@ import Proyectos from '../pages/proyectos destacados/index';
 import Tecnologias from '../pages/tecnologias/index';
 import Contacto from '../pages/contacto/index';
 import Mapafide from '../pages/mapafide/index';
+import Pregutas from '../pages/preguntas/index';
+import Libro from '../pages/libro';
+
+
 
 const Rutas = [
  
@@ -18,6 +22,15 @@ const Rutas = [
 { path: '/tecnologias', element: <Tecnologias /> },
 { path: '/contacto', element: <Contacto /> },
 { path: '/mapafide', element: <Mapafide /> },
+{ path: '/libroo', element: <Libro /> },
+{ path: '/preguntas', element: <Pregutas /> },
+
+
+
+
+
+
+
     ];
 
 

@@ -23,7 +23,7 @@ useEffect(() => {
         let element = document.querySelector(`meta[property='${property}']`);
         if (!element) {
           element = document.createElement('meta');
-          element.setAttribute('property', property);
+          element.setAttribute('property', property);      
           document.getElementsByTagName('head')[0].appendChild(element);
         }
         element.setAttribute('content', content);
