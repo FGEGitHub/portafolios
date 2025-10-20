@@ -11,7 +11,7 @@ import Pagina3 from "../../assets/folio2.png";
 import Pagina4 from "../../assets/folio2.png";
 import Portada from "../../assets/portada2.jpeg";
 
-import "./FolletoInteractivo.css"; // 👈 Importamos el CSS
+import "./Folletointeractivo.css"; // 👈 Importamos el CSS
 
 const paginas = [
   { id: "portada", img: Portada, texto: "Proyecto Urbano - Portada", portada: true },
