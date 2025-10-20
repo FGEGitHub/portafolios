@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 
 import Pagina2 from "../../Assets/folio2.png";
-import Pagina1 from "../../Assets/folio1.png";
+import Pagina1 from "../../Assets/folio2.png";
 import Pagina3 from "../../Assets/folio2.png";
 import Pagina4 from "../../Assets/folio2.png";
 import Portada from "../../Assets/portada.jpeg";
