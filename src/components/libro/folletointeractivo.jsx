@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import Pagina2 from "../../Assets/deepsek.png";
 import Pagina1 from "../../Assets/deepsek.png";
-import Pagina3 from "../../Assets/folio2.png";
+import Pagina3 from "../../Assets/deepsek.png";
 import Pagina4 from "../../Assets/deepsek.png";
 import Portada from "../../Assets/portada.jpeg";
 
