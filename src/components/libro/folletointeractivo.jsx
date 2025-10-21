@@ -7,8 +7,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import Pagina1 from "../../assets/folio1.png";
 import Pagina2 from "../../assets/folio2.png";
-import Pagina3 from "../../assets/folio2.png";
-import Pagina4 from "../../assets/folio2.png";
+import Pagina3 from "../../assets/folio3.png";
+import Pagina4 from "../../assets/folio4.png";
 import Portada from "../../assets/portada2.jpeg";
 
 import "./Folletointeractivo.css"; // 👈 Importamos el CSS
