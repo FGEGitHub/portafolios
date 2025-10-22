@@ -1,9 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-
-
 
 import Pagina1 from "../../assets/folio1.png";
 import Pagina2 from "../../assets/folio2.png";
@@ -11,7 +8,7 @@ import Pagina3 from "../../assets/folio3.png";
 import Pagina4 from "../../assets/folio4.png";
 import Portada from "../../assets/portada2.jpeg";
 
-import "./Folletointeractivo.css"; // 👈 Importamos el CSS
+import "./Folletointeractivo.css";
 
 const paginas = [
   { id: "portada", img: Portada, texto: "Proyecto Urbano - Portada", portada: true },
@@ -23,12 +20,17 @@ const paginas = [
 
 const FolletoInteractivo = () => {
   const flipBookRef = useRef();
+  const [zoomedPage, setZoomedPage] = useState(null);
 
   const nextPage = () => flipBookRef.current?.pageFlip().flipNext();
   const prevPage = () => flipBookRef.current?.pageFlip().flipPrev();
 
+  const toggleZoom = (id) => {
+    setZoomedPage((prev) => (prev === id ? null : id));
+  };
+
   return (
-    <div className="folleto-container">
+    <div className={`folleto-container ${zoomedPage ? "zoom-active" : ""}`}>
       <div className="folleto-book">
         <HTMLFlipBook
           width={window.innerWidth * 0.6}
@@ -45,7 +47,8 @@ const FolletoInteractivo = () => {
           {paginas.map((p) => (
             <div
               key={p.id}
-              className={`page ${p.portada ? "portada" : ""}`}
+              className={`page ${p.portada ? "portada" : ""} ${zoomedPage === p.id ? "zoomed" : ""}`}
+              onClick={() => toggleZoom(p.id)}
             >
               <img src={p.img} alt={`Página ${p.id}`} className="page-img" />
               <p className="page-text">{p.texto}</p>
@@ -54,16 +57,20 @@ const FolletoInteractivo = () => {
         </HTMLFlipBook>
       </div>
 
-      <div className="buttons">
-        <button className="nav-button" onClick={prevPage}>
-          <ChevronLeft size={28} />
-        </button>
-        <button className="nav-button" onClick={nextPage}>
-          <ChevronRight size={28} />
-        </button>
-      </div>
+      {!zoomedPage && (
+        <div className="buttons">
+          <button className="nav-button" onClick={prevPage}>
+            <ChevronLeft size={28} />
+          </button>
+          <button className="nav-button" onClick={nextPage}>
+            <ChevronRight size={28} />
+          </button>
+        </div>
+      )}
 
-      <p className="hint-text">📘 Usá las flechas o arrastrá para pasar la página</p>
+      <p className="hint-text">
+        {zoomedPage ? "Haz clic nuevamente para salir del zoom 🔍" : "📘 Usá las flechas o arrastrá para pasar la página"}
+      </p>
     </div>
   );
 };

@@ -101,3 +101,27 @@
   color: #dbeafe;
   font-style: italic;
 }
+/* Zoom activo */
+.page.zoomed {
+  transform: scale(1.8);
+  z-index: 999;
+  position: relative;
+  transition: transform 0.4s ease-in-out;
+  cursor: zoom-out;
+}
+
+/* Transición normal */
+.page {
+  transition: transform 0.3s ease-in-out;
+  cursor: zoom-in;
+}
+
+/* Desactivamos los botones mientras hay zoom */
+.zoom-active .buttons {
+  display: none;
+}
+
+/* Evitamos que se mueva el fondo cuando hay zoom */
+.zoom-active {
+  overflow: hidden;
+}
