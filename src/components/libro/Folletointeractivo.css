@@ -1,3 +1,4 @@
+/* 🟩 CONTENEDOR PRINCIPAL */
 .folleto-container {
   display: flex;
   flex-direction: column;
@@ -11,7 +12,7 @@
   overflow: hidden;
 }
 
-/* Contenedor del libro */
+/* 📖 CONTENEDOR DEL LIBRO */
 .folleto-book {
   position: relative;
   background: white;
@@ -27,7 +28,7 @@
   justify-content: center;
 }
 
-/* Páginas normales */
+/* 📄 PÁGINAS NORMALES */
 .page {
   display: flex;
   flex-direction: column;
@@ -47,7 +48,7 @@
   color: white;
 }
 
-/* Imagen en página normal */
+/* 🖼️ IMAGEN EN PÁGINA NORMAL */
 .page-img {
   width: auto;
   max-width: 90%;
@@ -58,7 +59,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Texto descriptivo debajo */
+/* 🖋️ TEXTO DEBAJO DE LA IMAGEN */
 .page-text {
   margin-top: 10px;
   font-size: 18px;
@@ -70,7 +71,7 @@
   color: white;
 }
 
-/* Zonas clicables */
+/* 🖱️ ZONAS CLICABLES PARA PASAR PÁGINA */
 .click-zone {
   position: absolute;
   top: 0;
@@ -79,31 +80,34 @@
   z-index: 50;
   cursor: pointer;
 }
-.click-zone.left { left: 0; }
-.click-zone.right { right: 0; }
 
-/* 🔥 Imagen doble (folio4) cubre ambas páginas */
-.doble-overlay {
-  position: absolute;
-  top: 0;
+.click-zone.left {
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.doble-img {
-  width: 100%;
+.click-zone.right {
+  right: 0;
+}
+
+/* 🌅 IMAGEN DOBLE (EXTENDIDA EN DOS PÁGINAS) */
+.page.doble {
+  overflow: hidden;
+  background: none;
+}
+
+.page-img-extendida {
+            /* 🔥 Doble ancho */
   height: 100%;
   object-fit: cover;
+  position: absolute;
+ left: -85%;
+width: 185%;          /* 🔥 Extiende hacia la izquierda para cubrir ambas páginas */
+  top: 0;
   border-radius: 0;
+  
 }
 
-/* Botones */
+/* 🧭 BOTONES DE NAVEGACIÓN */
 .buttons {
   display: flex;
   justify-content: center;
@@ -127,7 +131,7 @@
   transform: scale(1.1);
 }
 
-/* Texto inferior */
+/* 💬 TEXTO INFERIOR */
 .hint-text {
   margin-top: 12px;
   font-size: 15px;
@@ -137,34 +141,19 @@
   text-align: center;
 }
 
-/* Adaptable */
+/* 📱 ADAPTABLE */
 @media (max-width: 768px) {
   .folleto-book {
     width: 90vw;
     height: 70vh;
     border-width: 5px;
   }
-  .page-text { font-size: 16px; }
-  .hint-text { font-size: 13px; }
-}
 
+  .page-text {
+    font-size: 16px;
+  }
 
-.doble-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.doble-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0;
+  .hint-text {
+    font-size: 13px;
+  }
 }
