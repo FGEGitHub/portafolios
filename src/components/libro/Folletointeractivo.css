@@ -1,4 +1,3 @@
-/* Contenedor principal que ocupa toda la pantalla */
 .folleto-container {
   display: flex;
   flex-direction: column;
@@ -14,11 +13,12 @@
 
 /* Contenedor del libro */
 .folleto-book {
+  position: relative;
   background: white;
   border: 8px solid #1d4ed8;
-  height: 80vh;
-  width: 70vw;
-  max-width: 1400px;
+  height: 85vh;
+  width: 80vw;
+  max-width: 1600px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
@@ -27,7 +27,7 @@
   justify-content: center;
 }
 
-/* Páginas */
+/* Páginas normales */
 .page {
   display: flex;
   flex-direction: column;
@@ -39,7 +39,6 @@
   background: linear-gradient(135deg, #a8e6a1, #7ccf7a, #b4f1a2);
   padding: 16px;
   position: relative;
-  transition: transform 0.3s ease-in-out;
   cursor: default;
 }
 
@@ -48,7 +47,7 @@
   color: white;
 }
 
-/* Imagen dentro de cada página */
+/* Imagen en página normal */
 .page-img {
   width: auto;
   max-width: 90%;
@@ -59,7 +58,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Texto descriptivo debajo de la imagen */
+/* Texto descriptivo debajo */
 .page-text {
   margin-top: 10px;
   font-size: 18px;
@@ -71,73 +70,40 @@
   color: white;
 }
 
-/* ------------------------------- */
-/* 🔍 Zonas clicables invisibles   */
-/* ------------------------------- */
-
-.click-zone,
-.zoom-zone,
-.zoom-exit-zone {
+/* Zonas clicables */
+.click-zone {
   position: absolute;
   top: 0;
   height: 100%;
+  width: 25%;
   z-index: 50;
   cursor: pointer;
 }
+.click-zone.left { left: 0; }
+.click-zone.right { right: 0; }
 
-/* Mitad izquierda: volver página */
-.click-zone.left {
-  left: 0;
-  width: 25%;
-}
-
-/* Mitad derecha: avanzar página */
-.click-zone.right {
-  right: 0;
-  width: 25%;
-}
-
-/* Zona central: hacer zoom */
-.zoom-zone {
-  left: 25%;
-  width: 50%;
-  z-index: 60;
-}
-
-/* Si está en zoom, toda la página sirve para salir */
-.zoom-exit-zone {
+/* 🔥 Imagen doble (folio4) cubre ambas páginas */
+.doble-overlay {
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  cursor: zoom-out;
-  z-index: 70;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ------------------------------- */
-/* 🔎 Efecto de zoom               */
-/* ------------------------------- */
-
-.page.zoomed {
-  transform: scale(1.8);
-  z-index: 999;
-  position: relative;
-  transition: transform 0.4s ease-in-out;
-  cursor: zoom-out;
+.doble-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
 }
 
-/* Desactivar botones y scroll mientras hay zoom */
-.zoom-active .buttons {
-  display: none;
-}
-
-.zoom-active {
-  overflow: hidden;
-}
-
-/* ------------------------------- */
-/* Botones de navegación           */
-/* ------------------------------- */
-
+/* Botones */
 .buttons {
   display: flex;
   justify-content: center;
@@ -161,10 +127,7 @@
   transform: scale(1.1);
 }
 
-/* ------------------------------- */
-/* Texto inferior                  */
-/* ------------------------------- */
-
+/* Texto inferior */
 .hint-text {
   margin-top: 12px;
   font-size: 15px;
@@ -172,29 +135,36 @@
   color: #dbeafe;
   font-style: italic;
   text-align: center;
-  transition: opacity 0.3s;
 }
 
-.zoom-active .hint-text {
-  opacity: 0.8;
-}
-
-/* ------------------------------- */
-/* Adaptabilidad móvil             */
-/* ------------------------------- */
-
+/* Adaptable */
 @media (max-width: 768px) {
   .folleto-book {
     width: 90vw;
     height: 70vh;
     border-width: 5px;
   }
+  .page-text { font-size: 16px; }
+  .hint-text { font-size: 13px; }
+}
 
-  .page-text {
-    font-size: 16px;
-  }
 
-  .hint-text {
-    font-size: 13px;
-  }
+.doble-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.doble-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
 }
