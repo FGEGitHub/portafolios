@@ -48,10 +48,27 @@ const FolletoInteractivo = () => {
             <div
               key={p.id}
               className={`page ${p.portada ? "portada" : ""} ${zoomedPage === p.id ? "zoomed" : ""}`}
-              onClick={() => toggleZoom(p.id)}
             >
-              <img src={p.img} alt={`Página ${p.id}`} className="page-img" />
+              <img
+                src={p.img}
+                alt={`Página ${p.id}`}
+                className="page-img"
+              />
               <p className="page-text">{p.texto}</p>
+
+              {/* Zonas clicables invisibles */}
+              {!zoomedPage && (
+                <>
+                  <div className="click-zone left" onClick={prevPage}></div>
+                  <div className="click-zone right" onClick={nextPage}></div>
+                  <div className="zoom-zone" onClick={() => toggleZoom(p.id)}></div>
+                </>
+              )}
+
+              {/* Si está en zoom, clic en cualquier parte sale del zoom */}
+              {zoomedPage === p.id && (
+                <div className="zoom-exit-zone" onClick={() => toggleZoom(p.id)}></div>
+              )}
             </div>
           ))}
         </HTMLFlipBook>
@@ -69,7 +86,7 @@ const FolletoInteractivo = () => {
       )}
 
       <p className="hint-text">
-        {zoomedPage ? "Haz clic nuevamente para salir del zoom 🔍" : "📘 Usá las flechas o arrastrá para pasar la página"}
+        {zoomedPage ? "Haz clic nuevamente para salir del zoom 🔍" : "📘 Usa las flechas o haz clic a los lados para pasar la página"}
       </p>
     </div>
   );

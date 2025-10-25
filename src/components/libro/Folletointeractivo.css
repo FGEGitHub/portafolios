@@ -39,6 +39,8 @@
   background: linear-gradient(135deg, #a8e6a1, #7ccf7a, #b4f1a2);
   padding: 16px;
   position: relative;
+  transition: transform 0.3s ease-in-out;
+  cursor: default;
 }
 
 .page.portada {
@@ -69,7 +71,73 @@
   color: white;
 }
 
-/* Botones de navegación */
+/* ------------------------------- */
+/* 🔍 Zonas clicables invisibles   */
+/* ------------------------------- */
+
+.click-zone,
+.zoom-zone,
+.zoom-exit-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  z-index: 50;
+  cursor: pointer;
+}
+
+/* Mitad izquierda: volver página */
+.click-zone.left {
+  left: 0;
+  width: 25%;
+}
+
+/* Mitad derecha: avanzar página */
+.click-zone.right {
+  right: 0;
+  width: 25%;
+}
+
+/* Zona central: hacer zoom */
+.zoom-zone {
+  left: 25%;
+  width: 50%;
+  z-index: 60;
+}
+
+/* Si está en zoom, toda la página sirve para salir */
+.zoom-exit-zone {
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: zoom-out;
+  z-index: 70;
+}
+
+/* ------------------------------- */
+/* 🔎 Efecto de zoom               */
+/* ------------------------------- */
+
+.page.zoomed {
+  transform: scale(1.8);
+  z-index: 999;
+  position: relative;
+  transition: transform 0.4s ease-in-out;
+  cursor: zoom-out;
+}
+
+/* Desactivar botones y scroll mientras hay zoom */
+.zoom-active .buttons {
+  display: none;
+}
+
+.zoom-active {
+  overflow: hidden;
+}
+
+/* ------------------------------- */
+/* Botones de navegación           */
+/* ------------------------------- */
+
 .buttons {
   display: flex;
   justify-content: center;
@@ -93,35 +161,40 @@
   transform: scale(1.1);
 }
 
-/* Texto inferior */
+/* ------------------------------- */
+/* Texto inferior                  */
+/* ------------------------------- */
+
 .hint-text {
   margin-top: 12px;
   font-size: 15px;
   opacity: 0.9;
   color: #dbeafe;
   font-style: italic;
-}
-/* Zoom activo */
-.page.zoomed {
-  transform: scale(1.8);
-  z-index: 999;
-  position: relative;
-  transition: transform 0.4s ease-in-out;
-  cursor: zoom-out;
+  text-align: center;
+  transition: opacity 0.3s;
 }
 
-/* Transición normal */
-.page {
-  transition: transform 0.3s ease-in-out;
-  cursor: zoom-in;
+.zoom-active .hint-text {
+  opacity: 0.8;
 }
 
-/* Desactivamos los botones mientras hay zoom */
-.zoom-active .buttons {
-  display: none;
-}
+/* ------------------------------- */
+/* Adaptabilidad móvil             */
+/* ------------------------------- */
 
-/* Evitamos que se mueva el fondo cuando hay zoom */
-.zoom-active {
-  overflow: hidden;
+@media (max-width: 768px) {
+  .folleto-book {
+    width: 90vw;
+    height: 70vh;
+    border-width: 5px;
+  }
+
+  .page-text {
+    font-size: 16px;
+  }
+
+  .hint-text {
+    font-size: 13px;
+  }
 }
