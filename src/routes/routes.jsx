@@ -8,7 +8,7 @@ import Contacto from '../pages/contacto/index';
 import Mapafide from '../pages/mapafide/index';
 import Pregutas from '../pages/preguntas/index';
 import Libro from '../pages/libro';
-
+import Racks from '../pages/racks';
 
 
 const Rutas = [
@@ -24,7 +24,7 @@ const Rutas = [
 { path: '/mapafide', element: <Mapafide /> },
 { path: '/libroo', element: <Libro /> },
 { path: '/preguntas', element: <Pregutas /> },
-
+{ path: '/racks', element: <Racks /> },
 
 
 
