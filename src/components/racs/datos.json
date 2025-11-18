@@ -1,9 +1,10 @@
 {
   "racks": [
+       { "id": 4, "nombre": "Rack Servidores 1" },
     { "id": 1, "nombre": "Rack Redes 3" },
     { "id": 2, "nombre": "Rack Redes 2" },
-    { "id": 3, "nombre": "Rack Servidores 2" },
-    { "id": 4, "nombre": "Rack Servidores 1" }
+    { "id": 3, "nombre": "Rack Servidores 2" }
+ 
   ],
 
   "routers": [
